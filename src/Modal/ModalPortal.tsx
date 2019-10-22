@@ -5,6 +5,7 @@ import Modal from './Modal';
 import ModalContext from './context';
 import { ModalConfig } from './typing';
 import { canUseDOM } from './utils';
+import invariant from './invariant';
 import './modal.css';
 
 const NODE_ID = '__react-modal';
@@ -38,6 +39,9 @@ const ModalPortal: React.FC = ({ children }) => {
         ...modalDefaultConfig,
         ...modalConfig,
       } as const;
+
+      invariant.dimmed(config.dimmed);
+      invariant.maxWidth(config.maxWidth);
 
       setModals(prev => [...prev, { ...config, id, node }]);
       return id;

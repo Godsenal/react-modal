@@ -1,13 +1,15 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { ModalConfig } from './typing';
 
 const Modal: React.FC<ModalConfig> = ({ node, maxWidth, dimmed }) => {
-  const modalClassName = maxWidth ? `modal-${maxWidth}` : '';
-  const dimmedRatio = dimmed >= 1 ? 1 : dimmed <= 0 ? 0 : dimmed;
+  const modalClassName = useMemo(() => (maxWidth ? `modal-${maxWidth}` : ''), [
+    maxWidth,
+  ]);
+
   return (
     <div
       className="dimmed"
-      style={{ backgroundColor: `rgba(0, 0, 0, ${dimmedRatio})` }}
+      style={{ backgroundColor: `rgba(0, 0, 0, ${dimmed})` }}
     >
       <div className="center">
         <div className={`modal ${modalClassName}`}>{node}</div>
