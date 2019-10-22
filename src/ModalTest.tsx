@@ -1,12 +1,14 @@
 import React from 'react';
 import { useModal } from './Modal';
+import { ModalConfig } from './Modal/typing';
 
-const options = {
+const options: Partial<ModalConfig> = {
   dimmed: 0.5,
   useBodyScroll: false,
+  maxWidth: 'sm',
 };
 
-const setOption = <T extends keyof typeof options>(
+const setOption = <T extends keyof ModalConfig>(
   option: T,
   value: typeof options[T],
 ) => (options[option] = value);
@@ -21,7 +23,7 @@ const InnerModal: React.FC<{
   context: ReturnType<typeof useModal>;
 }> = ({ id, context }) => {
   const { showModal, closeModal } = context;
-  console.log(options);
+
   return (
     <>
       <div>
@@ -74,6 +76,23 @@ const ModalTest: React.FC = () => {
             defaultValue={options.dimmed}
             onChange={e => setOption('dimmed', Number(e.target.value))}
           />
+        </div>
+        <div>
+          <label htmlFor="maxWidth">maxWidth 값</label>
+          <select
+            id="maxWidth"
+            defaultValue={options.maxWidth || ''}
+            onChange={e =>
+              setOption('maxWidth', (e.target.value ||
+                false) as ModalConfig['maxWidth'])
+            }
+          >
+            {['xs', 'sm', 'md', 'lg', 'xl', ''].map(value => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <label htmlFor="useBodyScroll">body 스크롤 적용</label>
