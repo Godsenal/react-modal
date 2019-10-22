@@ -1,12 +1,26 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import shortid from 'shortid';
 import Modal from './Modal';
 import ModalContext from './context';
 import { ModalConfig } from './typing';
+import { canUseDOM } from './utils';
 import './modal.css';
 
+const NODE_ID = '__react-modal';
+
 const ModalPortal: React.FC = ({ children }) => {
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
   const [modals, setModals] = useState<ModalConfig[]>([]);
+
+  useEffect(() => {
+    if (canUseDOM) {
+      const el = document.createElement('div');
+      el.id = NODE_ID;
+      document.body.appendChild(el);
+      setNode(el);
+    }
+  }, []);
 
   const showModal = useCallback(
     (
@@ -45,14 +59,19 @@ const ModalPortal: React.FC = ({ children }) => {
     }),
     [showModal, closeModal],
   );
-
   return (
-    <ModalContext.Provider value={context}>
-      {children}
-      {modals.map(modal => (
-        <Modal key={modal.id} {...modal} />
-      ))}
-    </ModalContext.Provider>
+    <>
+      <ModalContext.Provider value={context}>{children}</ModalContext.Provider>
+      {node &&
+        createPortal(
+          <>
+            {modals.map(modal => (
+              <Modal key={modal.id} {...modal} />
+            ))}
+          </>,
+          node,
+        )}
+    </>
   );
 };
 
