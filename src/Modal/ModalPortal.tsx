@@ -8,12 +8,17 @@ import { canUseDOM } from './utils';
 import './modal.css';
 
 const NODE_ID = '__react-modal';
+const modalDefaultConfig = {
+  maxWidth: 'sm',
+  dimmed: 0.5,
+} as const;
 
 const ModalPortal: React.FC = ({ children }) => {
   const [node, setNode] = useState<HTMLDivElement | null>(null);
   const [modals, setModals] = useState<ModalConfig[]>([]);
 
   useEffect(() => {
+    // portal node 설정
     if (canUseDOM) {
       const el = document.createElement('div');
       el.id = NODE_ID;
@@ -30,10 +35,10 @@ const ModalPortal: React.FC = ({ children }) => {
       const id = shortid.generate();
       const node = modalCallback(id);
       const config = {
+        ...modalDefaultConfig,
         ...modalConfig,
-        maxWidth: 'sm',
-        dimmed: 0.5,
       } as const;
+
       setModals(prev => [...prev, { ...config, id, node }]);
       return id;
     },
