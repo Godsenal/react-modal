@@ -12,6 +12,7 @@ const NODE_ID = '__react-modal';
 const modalDefaultConfig = {
   maxWidth: 'sm',
   dimmed: 0.5,
+  useBodyScroll: false,
 } as const;
 
 const ModalPortal: React.FC = ({ children }) => {

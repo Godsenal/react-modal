@@ -1,7 +1,16 @@
 import React, { memo, useMemo } from 'react';
 import { ModalConfig } from './typing';
 
-const Modal: React.FC<ModalConfig> = ({ node, maxWidth, dimmed }) => {
+const Modal: React.FC<ModalConfig> = ({
+  node,
+  maxWidth,
+  dimmed,
+  useBodyScroll,
+}) => {
+  const centerClassName = useMemo(
+    () => `center-scroll${useBodyScroll ? 'Body' : 'Modal'}`,
+    [useBodyScroll],
+  );
   const modalClassName = useMemo(() => (maxWidth ? `modal-${maxWidth}` : ''), [
     maxWidth,
   ]);
@@ -11,7 +20,7 @@ const Modal: React.FC<ModalConfig> = ({ node, maxWidth, dimmed }) => {
       className="dimmed"
       style={{ backgroundColor: `rgba(0, 0, 0, ${dimmed})` }}
     >
-      <div className="center">
+      <div className={`center ${centerClassName}`}>
         <div className={`modal ${modalClassName}`}>{node}</div>
       </div>
     </div>
