@@ -1,3 +1,5 @@
+import { MAX_WIDTH } from './constants';
+
 const isProduction: boolean = process.env.NODE_ENV === 'production';
 const prefix = 'Invariant error';
 
@@ -17,7 +19,6 @@ const invariant = (
   };
 };
 
-const MaxWidth = ['xs', 'sm', 'md', 'lg', 'xl'];
 const invariantMap = {
   dimmed: invariant(
     (dimmed: number | boolean) => dimmed >= 0 && dimmed <= 1,
@@ -26,8 +27,10 @@ const invariantMap = {
   maxWidth: invariant(
     (maxWidth: string | false) =>
       maxWidth === false ||
-      Object.values(MaxWidth).some(validWidth => validWidth === maxWidth),
-    `MaxWidth should be one of ${Object.values(MaxWidth).join(', ')} or false.`,
+      Object.values(MAX_WIDTH).some(validWidth => validWidth === maxWidth),
+    `MaxWidth should be one of ${Object.values(MAX_WIDTH).join(
+      ', ',
+    )} or false.`,
   ),
 };
 
