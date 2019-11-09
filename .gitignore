@@ -10,6 +10,10 @@
 
 # production
 /build
+/es
+/lib
+/types
+/umd
 
 # misc
 .DS_Store

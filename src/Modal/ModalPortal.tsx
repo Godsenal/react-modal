@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import shortid from 'shortid';
 import Modal from './Modal';
 import ModalContext from './context';
 import { ModalConfig } from './typing';
-import { canUseDOM } from './utils';
+import { canUseDOM, generateId } from './utils';
 import invariant from './invariant';
-import './modal.css';
 
 const NODE_ID = '__react-modal';
 const modalDefaultConfig = {
@@ -34,7 +32,7 @@ const ModalPortal: React.FC = ({ children }) => {
       modalCallback: (id: string) => React.ReactNode,
       modalConfig?: Partial<ModalConfig>,
     ) => {
-      const id = shortid.generate();
+      const id = generateId();
       const node = modalCallback(id);
       const config = {
         ...modalDefaultConfig,

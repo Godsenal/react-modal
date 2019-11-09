@@ -1,24 +1,44 @@
 {
-  "name": "react-modal",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@thlee/react-modal",
+  "version": "0.1.1",
+  "description": "react modal",
+  "author": {
+    "name": "Godsenal",
+    "url": "https://godsenal.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/godsenal/react-modal.git"
+  },
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "types/index.d.ts",
+  "keywords": [
+    "modal",
+    "react-modal",
+    "remodal"
+  ],
+  "files": [
+    "lib",
+    "umd",
+    "es",
+    "types",
+    "styles"
+  ],
   "dependencies": {
-    "@types/jest": "24.0.19",
-    "@types/node": "12.11.1",
-    "@types/react": "16.9.9",
-    "@types/react-dom": "16.9.2",
-    "@types/shortid": "0.0.29",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0",
-    "shortid": "^2.2.15",
-    "typescript": "3.6.4"
+    "@babel/runtime": "^7.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:types": "tsc --emitDeclarationOnly -p ./build.tsconfig.json",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src/Modal -d lib --extensions .ts,.tsx",
+    "build:es": "cross-env BABEL_ENV=es babel src/Modal -d es --extensions .ts,.tsx",
+    "build:umd": "cross-env BABEL_ENV=umd rollup -c",
+    "build": "npm run clean && npm run build:types && npm run build:cjs && npm run build:es && npm run build:umd",
+    "clean": "rimraf lib dist es umd types",
+    "prepare": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,5 +54,30 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@types/jest": "^24.0.19",
+    "@types/node": "^12.11.1",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
+    "@types/shortid": "0.0.29",
+    "babel-preset-react-app": "^9.0.2",
+    "cross-env": "^6.0.3",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "^3.2.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.26.3",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "typescript": "^3.6.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   }
 }

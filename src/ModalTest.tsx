@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModal } from './Modal';
+import { useModal } from 'react-modal/lib';
 import { ModalConfig } from './Modal/typing';
 
 const options: Partial<ModalConfig> = {
